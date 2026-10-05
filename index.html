@@ -76,15 +76,16 @@ section.cat h2{font-family:"ARCD Serif";font-weight:700;font-size:28px;line-heig
 .note{color:var(--yellow-soft);text-align:center;font-size:13px;opacity:.8;margin:-6px 0 14px}
 
 /* Rodapé */
-footer{text-align:center;color:var(--cream);padding:24px 0 calc(72px + env(safe-area-inset-bottom))}
-footer .thanks{font-family:"ARCD Serif";font-style:italic;font-weight:500;font-size:30px;padding:48px 0 24px}
-footer .block{margin-top:40px;padding-top:32px;border-top:1px solid rgba(251,245,227,.15)}
+footer.container{text-align:center;color:var(--cream);padding:16px 16px calc(96px + env(safe-area-inset-bottom))}
+footer .thanks{font-family:"ARCD Serif";font-style:italic;font-weight:500;font-size:30px;padding:40px 0}
+footer .block{padding:40px 0;border-top:1px solid rgba(251,245,227,.15)}
 footer .label{font-size:11px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--yellow-soft);opacity:.85;margin-bottom:10px}
 footer address,footer .info{font-style:normal;font-size:15px;line-height:1.7;opacity:.9}
 footer .info+.info{margin-top:6px}
-footer .credits{margin-top:32px;padding:16px 0 8px;font-size:12px;letter-spacing:.04em;opacity:.6}
+footer .credits{margin-top:16px;font-size:12px;letter-spacing:.04em;opacity:.6}
 footer .credits a{color:inherit;text-decoration:underline;text-underline-offset:2px}
-footer .logo-small{width:64px;height:auto;display:block;margin:48px auto 0;opacity:.75}
+footer .signoff{padding-top:40px;border-top:1px solid rgba(251,245,227,.15)}
+footer .logo-small{width:64px;height:auto;display:block;margin:0 auto;opacity:.75}
 
 /* Erro / menu vazio */
 body.is-error{background-color:#5a1a12;background-image:
@@ -140,8 +141,10 @@ body.is-error .chip{background:rgba(255,255,255,.12)}
     <p class="info">Tem alguma alergia ou intolerância?<br>Fale connosco antes de pedir.</p>
   </div>
 
+  <div class="signoff">
   <img class="logo-small" src="logo.webp" width="64" height="60" alt="" loading="lazy">
   <p class="credits">Site feito por <a href="https://www.linkedin.com/in/thisisinesgomes" target="_blank" rel="noopener">Inês Gomes</a></p>
+  </div>
 </footer>
 
 <script>
