@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Café ARCD · Menu</title>
+<meta name="description" content="Menu e horário do café da Associação Recreativa de Cultura e Desporto da Louriceira-Freiria.">
+<meta name="theme-color" content="#2b3d1f">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="preload" href="fonts/playfair-display-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"ARCD Serif";src:url(fonts/playfair-display-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"ARCD Serif";font-style:italic;src:url(fonts/playfair-display-latin-700-italic.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"ARCD Serif";font-style:italic;src:url(fonts/playfair-display-latin-500-italic.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"ARCD Sans";src:url(fonts/inter-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"ARCD Sans";src:url(fonts/inter-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"ARCD Sans";src:url(fonts/inter-latin-800-normal.woff2) format("woff2");font-weight:800;font-display:swap}
+
+:root{
+  --green-1:#6f8a4a;--green-2:#3e5428;--green-3:#22331a;--green-4:#2b3d1f;
+  --yellow:#ecd37a;--yellow-soft:#f6e7b0;--brown:#4a2a1d;--red:#c4543c;
+  --cream:#fbf5e3;--line:rgba(74,42,29,.16);--muted:rgba(74,42,29,.6);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{
+  min-height:100vh;color:var(--brown);font-family:"ARCD Sans",system-ui,sans-serif;font-weight:500;
+  background-color:var(--green-3);
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23ffffff' fill-opacity='.06'><path d='M40 20c18 6 26 22 22 40-18-6-26-22-22-40z'/><path d='M130 100c-18 6-26 22-22 40 18-6 26-22 22-40z'/><path d='M120 30c4 14-2 26-16 32-4-14 2-26 16-32z'/><path d='M50 110c-4 14 2 26 16 32 4-14-2-26-16-32z'/></g></svg>"),
+    radial-gradient(ellipse 120% 60% at 50% 0%,var(--green-1) 0%,var(--green-2) 45%,var(--green-3) 100%);
+  background-size:120px 120px,100% 100vh;background-repeat:repeat,no-repeat;
+  -webkit-font-smoothing:antialiased;
+}
+.container{max-width:640px;margin:0 auto;padding:0 16px}
+
+/* Cabeçalho */
+header{text-align:center;padding:36px 0 8px}
+header img{width:min(52vw,220px);height:auto;display:block;margin:0 auto;filter:drop-shadow(0 8px 16px rgba(0,0,0,.25))}
+.kicker{margin-top:18px;font-weight:700;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--yellow-soft)}
+h1{font-family:"ARCD Serif";font-weight:700;color:var(--cream);font-size:clamp(48px,14vw,72px);line-height:.95;margin-top:8px;text-shadow:0 4px 0 rgba(74,42,29,.35)}
+h1 em{color:var(--yellow);font-style:italic}
+
+/* Horário */
+.hours{margin:24px auto 0;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.chip{background:rgba(251,245,227,.12);border:1px solid rgba(251,245,227,.25);color:var(--cream);border-radius:100px;padding:8px 16px;font-size:14px}
+.chip b{font-weight:800;color:var(--yellow)}
+
+/* Navegação de categorias */
+nav{position:sticky;top:0;z-index:10;margin-top:24px;padding:12px 0;background:rgba(34,51,26,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid rgba(251,245,227,.1)}
+nav .container{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+nav .container::-webkit-scrollbar{display:none}
+nav a{flex:none;text-decoration:none;color:var(--cream);font-size:14px;font-weight:700;padding:8px 14px;border-radius:100px;background:rgba(251,245,227,.1);white-space:nowrap}
+nav a.active{background:var(--yellow);color:var(--brown)}
+
+/* Categorias */
+main{padding:20px 0 8px}
+section.cat{background:var(--cream);border-radius:24px;padding:22px 20px 10px;margin-bottom:22px;box-shadow:0 8px 0 var(--yellow),0 16px 32px rgba(0,0,0,.28)}
+section.cat h2{font-family:"ARCD Serif";font-weight:700;font-size:28px;line-height:1.1;padding-bottom:10px;border-bottom:2px solid var(--brown)}
+.item{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.item:last-child{border-bottom:0}
+.name{font-size:16px;font-weight:700;line-height:1.3}
+.price{font-weight:800;font-size:17px;white-space:nowrap;align-self:start}
+.desc{grid-column:1/-1;font-size:14px;color:var(--muted);line-height:1.4}
+.allergens{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.allergens span{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--red);border:1px solid rgba(196,84,60,.4);border-radius:100px;padding:2px 8px}
+
+.status{text-align:center;color:var(--cream);padding:40px 16px;font-size:15px;opacity:.85}
+.note{color:var(--yellow-soft);text-align:center;font-size:13px;opacity:.8;margin:-6px 0 14px}
+
+/* Rodapé */
+footer{text-align:center;color:var(--cream);padding:18px 0 40px}
+footer .thanks{font-family:"ARCD Serif";font-style:italic;font-weight:500;font-size:24px}
+footer address{font-style:normal;font-size:14px;line-height:1.6;margin-top:14px;opacity:.85}
+footer small{display:block;margin-top:16px;font-size:12px;opacity:.6;line-height:1.5}
+</style>
+</head>
+<body>
+
+<header class="container">
+  <img src="logo.webp" width="220" height="207" alt="Brasão da ARCD Louriceira-Freiria">
+  <div class="kicker">O café da associação</div>
+  <h1>O nosso<br><em>menu</em></h1>
+  <div class="hours">
+    <span class="chip">Quarta a domingo <b>14h – 23h</b></span>
+    <span class="chip">Segunda e terça: fechado</span>
+  </div>
+</header>
+
+<nav aria-label="Categorias"><div class="container" id="nav"></div></nav>
+
+<main class="container" id="menu">
+  <p class="status" id="status">A carregar o menu…</p>
+</main>
+
+<footer class="container">
+  <p class="thanks">Esperamos por si!</p>
+  <address>
+    Associação Recreativa de Cultura e Desporto<br>da Louriceira-Freiria<br>
+    Largo do Rossio, 2005-104 Louriceira
+  </address>
+  <small>Preços com IVA incluído.<br>Tem alguma alergia ou intolerância? Fale connosco antes de pedir.</small>
+</footer>
+
+<script>
+// Folha "Menu" publicada como CSV (Ficheiro → Partilhar → Publicar na Web).
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqSk3zcPUn6i9S0QSug5tJLNrs0ANRWsjdc9lwxwt9qaQqF6_6CZ9rzQHsf10UZOV7gKKAh2p_Ad3D/pub?gid=0&single=true&output=csv";
+const CACHE_KEY = "arcd-menu-csv";
+
+function parseCSV(text){
+  const rows=[];let row=[],field="",q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){
+      if(c==='"'){ if(text[i+1]==='"'){field+='"';i++;} else q=false; }
+      else field+=c;
+    }else if(c==='"') q=true;
+    else if(c===','){row.push(field);field="";}
+    else if(c==='\n'||c==='\r'){
+      if(c==='\r'&&text[i+1]==='\n') i++;
+      row.push(field);rows.push(row);row=[];field="";
+    }else field+=c;
+  }
+  if(field!==""||row.length){row.push(field);rows.push(row);}
+  return rows;
+}
+
+const norm=s=>(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").trim().toLowerCase();
+const esc=s=>(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const slug=s=>norm(s).replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+
+function formatPrice(raw){
+  const s=(raw||"").replace(/[€\s ]/g,"").replace(/\.(?=\d{3}\b)/g,"").replace(",",".");
+  const n=parseFloat(s);
+  if(isNaN(n)) return esc(raw);
+  return n.toLocaleString("pt-PT",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
+}
+
+function isAvailable(v){
+  const s=norm(v);
+  return !(s==="false"||s==="falso"||s==="nao"||s==="0");
+}
+
+function render(text){
+  const rows=parseCSV(text).filter(r=>r.some(c=>c.trim()!==""));
+  if(rows.length<2) throw new Error("vazio");
+  const head=rows[0].map(norm);
+  const col=name=>head.indexOf(name);
+  const iCat=col("categoria"),iProd=col("produto"),iDesc=col("descricao"),
+        iPrice=col("preco"),iAl=col("alergenios"),iAv=col("disponivel");
+  if(iProd<0) throw new Error("colunas");
+
+  const cats=new Map();
+  for(const r of rows.slice(1)){
+    const prod=(r[iProd]||"").trim();
+    if(!prod) continue;
+    if(iAv>=0 && !isAvailable(r[iAv])) continue;
+    const cat=(iCat>=0?r[iCat]:"").trim()||"Outros";
+    if(!cats.has(cat)) cats.set(cat,[]);
+    cats.get(cat).push({
+      prod,
+      desc:iDesc>=0?(r[iDesc]||"").trim():"",
+      price:iPrice>=0?(r[iPrice]||"").trim():"",
+      al:iAl>=0?(r[iAl]||"").split(",").map(s=>s.trim()).filter(Boolean):[]
+    });
+  }
+  if(!cats.size) throw new Error("sem itens");
+
+  let nav="",html="";
+  for(const [cat,items] of cats){
+    const id="c-"+slug(cat);
+    nav+=`<a href="#${id}">${esc(cat)}</a>`;
+    html+=`<section class="cat" id="${id}"><h2>${esc(cat)}</h2>`+items.map(it=>
+      `<div class="item"><div class="name">${esc(it.prod)}</div>`+
+      `<div class="price">${it.price?formatPrice(it.price):""}</div>`+
+      (it.desc?`<div class="desc">${esc(it.desc)}</div>`:"")+
+      (it.al.length?`<div class="allergens" aria-label="Alergénios">${it.al.map(a=>`<span>${esc(a)}</span>`).join("")}</div>`:"")+
+      `</div>`).join("")+`</section>`;
+  }
+  document.getElementById("nav").innerHTML=nav;
+  document.getElementById("menu").innerHTML=html;
+  watchSections();
+}
+
+function watchSections(){
+  const links=[...document.querySelectorAll("nav a")];
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.toggle("active",l.getAttribute("href")==="#"+e.target.id));
+        const a=links.find(l=>l.classList.contains("active"));
+        if(a) a.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+      }
+    });
+  },{rootMargin:"-80px 0px -70% 0px"});
+  document.querySelectorAll("section.cat").forEach(s=>obs.observe(s));
+}
+
+function readCache(){try{return localStorage.getItem(CACHE_KEY);}catch(e){return null;}}
+function writeCache(t){try{localStorage.setItem(CACHE_KEY,t);}catch(e){}}
+
+(async()=>{
+  const cached=readCache();
+  if(cached){try{render(cached);}catch(e){}}
+  try{
+    const res=await fetch(CSV_URL+"&t="+Date.now(),{cache:"no-store"});
+    if(!res.ok) throw new Error(res.status);
+    const text=await res.text();
+    render(text);
+    writeCache(text);
+  }catch(err){
+    if(!cached){
+      document.getElementById("status").textContent="Não foi possível carregar o menu. Verifique a ligação à internet ou peça o menu ao balcão.";
+    }else{
+      const n=document.createElement("p");n.className="note";
+      n.textContent="Sem ligação: a mostrar o último menu guardado.";
+      document.getElementById("menu").prepend(n);
+    }
+  }
+})();
+</script>
+</body>
+</html>
