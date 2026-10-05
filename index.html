@@ -87,6 +87,15 @@ footer .credits a{color:inherit;text-decoration:underline;text-underline-offset:
 footer .signoff{padding-top:40px;border-top:1px solid rgba(251,245,227,.15)}
 footer .logo-small{width:64px;height:auto;display:block;margin:0 auto;opacity:.75}
 
+/* Novidades */
+.badge-new{display:inline-block;vertical-align:2px;margin-left:6px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--yellow);color:var(--brown);border-radius:100px;padding:3px 8px;line-height:1}
+section.cat.news{background:var(--yellow-soft);box-shadow:0 8px 0 var(--green-1),0 16px 32px rgba(0,0,0,.28)}
+section.cat.news h2 span{color:var(--red)}
+section.cat.news .badge-new{display:none}
+section.cat.news .item{border-bottom-color:rgba(74,42,29,.2)}
+.item-cat{grid-column:1/-1;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+nav a.nav-new:not(.active){background:rgba(236,211,122,.22);color:var(--yellow)}
+
 /* Erro / menu vazio */
 body.is-error{background-color:#5a1a12;background-image:
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23ffffff' fill-opacity='.06'><path d='M40 20c18 6 26 22 22 40-18-6-26-22-22-40z'/><path d='M130 100c-18 6-26 22-22 40 18-6 26-22 22-40z'/><path d='M120 30c4 14-2 26-16 32-4-14 2-26 16-32z'/><path d='M50 110c-4 14 2 26 16 32 4-14-2-26-16-32z'/></g></svg>"),
@@ -186,41 +195,75 @@ function isAvailable(v){
   return !(s==="false"||s==="falso"||s==="nao"||s==="0");
 }
 
+const NEW_DAYS=30;
+// Datas da folha: "dd/mm/aaaa" (formato PT) ou "aaaa-mm-dd".
+function parseDate(v){
+  const t=(v||"").trim();
+  let m=t.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
+  if(m) return new Date(+m[3],+m[2]-1,+m[1]);
+  m=t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(m) return new Date(+m[1],+m[2]-1,+m[3]);
+  return null;
+}
+function isRecent(d){
+  if(!d) return false;
+  const today=new Date();today.setHours(0,0,0,0);
+  const days=(today-d)/86400000;
+  return days>=-1 && days<=NEW_DAYS;
+}
+function isChecked(v){const s=norm(v);return s==="true"||s==="verdadeiro"||s==="sim"||s==="1";}
+
+function itemHTML(it,showCat){
+  return `<div class="item"><div class="name">${esc(it.prod)}`+
+    (it.isNew?` <span class="badge-new">Novo</span>`:"")+`</div>`+
+    `<div class="price">${it.price?formatPrice(it.price):""}</div>`+
+    (showCat?`<div class="item-cat">${esc(it.cat)}</div>`:"")+
+    (it.desc?`<div class="desc">${esc(it.desc)}</div>`:"")+
+    (it.al.length?`<div class="allergens" aria-label="Alergénios">${it.al.map(a=>`<span>${esc(a)}</span>`).join("")}</div>`:"")+
+    `</div>`;
+}
+
 function render(text){
   const rows=parseCSV(text).filter(r=>r.some(c=>c.trim()!==""));
   if(rows.length<2) throw new Error("vazio");
   const head=rows[0].map(norm);
   const col=name=>head.indexOf(name);
   const iCat=col("categoria"),iProd=col("produto"),iDesc=col("descricao"),
-        iPrice=col("preco"),iAl=col("alergenios"),iAv=col("disponivel");
+        iPrice=col("preco"),iAl=col("alergenios"),iAv=col("disponivel"),
+        iNew=col("novidade"),iDate=col("adicionado em");
   if(iProd<0) throw new Error("colunas");
 
-  const cats=new Map();
+  const cats=new Map(),news=[];
   for(const r of rows.slice(1)){
     const prod=(r[iProd]||"").trim();
     if(!prod) continue;
     if(iAv>=0 && !isAvailable(r[iAv])) continue;
     const cat=(iCat>=0?r[iCat]:"").trim()||"Outros";
-    if(!cats.has(cat)) cats.set(cat,[]);
-    cats.get(cat).push({
-      prod,
+    const date=iDate>=0?parseDate(r[iDate]):null;
+    const it={
+      prod,cat,date,
       desc:iDesc>=0?(r[iDesc]||"").trim():"",
       price:iPrice>=0?(r[iPrice]||"").trim():"",
-      al:iAl>=0?(r[iAl]||"").split(",").map(s=>s.trim()).filter(Boolean):[]
-    });
+      al:iAl>=0?(r[iAl]||"").split(",").map(s=>s.trim()).filter(Boolean):[],
+      isNew:iNew>=0 && isChecked(r[iNew]) && isRecent(date)
+    };
+    if(!cats.has(cat)) cats.set(cat,[]);
+    cats.get(cat).push(it);
+    if(it.isNew) news.push(it);
   }
   if(!cats.size) throw new Error("sem itens");
 
   let nav="",html="";
+  if(news.length){
+    news.sort((a,b)=>b.date-a.date);   // mais recentes primeiro
+    nav+=`<a href="#c-novidades" class="nav-new">★ Novidades</a>`;
+    html+=`<section class="cat news" id="c-novidades"><h2><span aria-hidden="true">★</span> Novidades</h2>`+
+      news.map(it=>itemHTML(it,true)).join("")+`</section>`;
+  }
   for(const [cat,items] of cats){
     const id="c-"+slug(cat);
     nav+=`<a href="#${id}">${esc(cat)}</a>`;
-    html+=`<section class="cat" id="${id}"><h2>${esc(cat)}</h2>`+items.map(it=>
-      `<div class="item"><div class="name">${esc(it.prod)}</div>`+
-      `<div class="price">${it.price?formatPrice(it.price):""}</div>`+
-      (it.desc?`<div class="desc">${esc(it.desc)}</div>`:"")+
-      (it.al.length?`<div class="allergens" aria-label="Alergénios">${it.al.map(a=>`<span>${esc(a)}</span>`).join("")}</div>`:"")+
-      `</div>`).join("")+`</section>`;
+    html+=`<section class="cat" id="${id}"><h2>${esc(cat)}</h2>`+items.map(it=>itemHTML(it,false)).join("")+`</section>`;
   }
   document.getElementById("nav").innerHTML=nav;
   document.getElementById("menu").innerHTML=html;
