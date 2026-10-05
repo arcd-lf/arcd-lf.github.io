@@ -211,7 +211,6 @@ function isRecent(d){
   const days=(today-d)/86400000;
   return days>=-1 && days<=NEW_DAYS;
 }
-function isChecked(v){const s=norm(v);return s==="true"||s==="verdadeiro"||s==="sim"||s==="1";}
 
 function itemHTML(it,showCat){
   return `<div class="item"><div class="name">${esc(it.prod)}`+
@@ -230,7 +229,7 @@ function render(text){
   const col=name=>head.indexOf(name);
   const iCat=col("categoria"),iProd=col("produto"),iDesc=col("descricao"),
         iPrice=col("preco"),iAl=col("alergenios"),iAv=col("disponivel"),
-        iNew=col("novidade"),iDate=col("adicionado em");
+        iDate=col("adicionado em");
   if(iProd<0) throw new Error("colunas");
 
   const cats=new Map(),news=[];
@@ -245,7 +244,7 @@ function render(text){
       desc:iDesc>=0?(r[iDesc]||"").trim():"",
       price:iPrice>=0?(r[iPrice]||"").trim():"",
       al:iAl>=0?(r[iAl]||"").split(",").map(s=>s.trim()).filter(Boolean):[],
-      isNew:iNew>=0 && isChecked(r[iNew]) && isRecent(date)
+      isNew:isRecent(date)   // novidade = adicionado há 30 dias ou menos
     };
     if(!cats.has(cat)) cats.set(cat,[]);
     cats.get(cat).push(it);
