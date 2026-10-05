@@ -31,7 +31,7 @@ body{
   background-image:
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23ffffff' fill-opacity='.06'><path d='M40 20c18 6 26 22 22 40-18-6-26-22-22-40z'/><path d='M130 100c-18 6-26 22-22 40 18-6 26-22 22-40z'/><path d='M120 30c4 14-2 26-16 32-4-14 2-26 16-32z'/><path d='M50 110c-4 14 2 26 16 32 4-14-2-26-16-32z'/></g></svg>"),
     radial-gradient(ellipse 120% 60% at 50% 0%,var(--green-1) 0%,var(--green-2) 45%,var(--green-3) 100%);
-  background-size:120px 120px,100% 100vh;background-repeat:repeat,no-repeat;
+  background-size:120px 120px,100% 900px;background-repeat:repeat,no-repeat;
   -webkit-font-smoothing:antialiased;
 }
 .container{max-width:640px;margin:0 auto;padding:0 16px}
@@ -50,7 +50,7 @@ h1 em{color:var(--yellow);font-style:italic}
 
 /* Navegação de categorias */
 nav{position:sticky;top:0;z-index:10;margin-top:24px;padding:12px 0;background:rgba(34,51,26,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid rgba(251,245,227,.1)}
-nav .container{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+nav .container{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;position:relative;overscroll-behavior-x:contain}
 nav .container::-webkit-scrollbar{display:none}
 nav a{flex:none;text-decoration:none;color:var(--cream);font-size:14px;font-weight:700;padding:8px 14px;border-radius:100px;background:rgba(251,245,227,.1);white-space:nowrap}
 nav a.active{background:var(--yellow);color:var(--brown)}
@@ -184,18 +184,26 @@ function render(text){
   watchSections();
 }
 
+let sectionObserver=null;
 function watchSections(){
-  const links=[...document.querySelectorAll("nav a")];
-  const obs=new IntersectionObserver(entries=>{
+  if(sectionObserver) sectionObserver.disconnect();
+  const bar=document.getElementById("nav");
+  const links=[...bar.querySelectorAll("a")];
+  let current=null;
+  sectionObserver=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
-      if(e.isIntersecting){
-        links.forEach(l=>l.classList.toggle("active",l.getAttribute("href")==="#"+e.target.id));
-        const a=links.find(l=>l.classList.contains("active"));
-        if(a) a.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+      if(!e.isIntersecting||e.target.id===current) return;
+      current=e.target.id;
+      links.forEach(l=>l.classList.toggle("active",l.getAttribute("href")==="#"+current));
+      const a=links.find(l=>l.classList.contains("active"));
+      // Desliza só a barra de categorias na horizontal; nunca mexe no scroll da página.
+      if(a){
+        const left=a.offsetLeft-(bar.clientWidth-a.offsetWidth)/2;
+        bar.scrollTo({left:Math.max(0,left),behavior:"smooth"});
       }
     });
   },{rootMargin:"-80px 0px -70% 0px"});
-  document.querySelectorAll("section.cat").forEach(s=>obs.observe(s));
+  document.querySelectorAll("section.cat").forEach(s=>sectionObserver.observe(s));
 }
 
 function readCache(){try{return localStorage.getItem(CACHE_KEY);}catch(e){return null;}}
@@ -208,8 +216,12 @@ function writeCache(t){try{localStorage.setItem(CACHE_KEY,t);}catch(e){}}
     const res=await fetch(CSV_URL+"&t="+Date.now(),{cache:"no-store"});
     if(!res.ok) throw new Error(res.status);
     const text=await res.text();
-    render(text);
-    writeCache(text);
+    if(text!==cached){
+      const y=window.scrollY;
+      render(text);
+      window.scrollTo(0,y);
+      writeCache(text);
+    }
   }catch(err){
     if(!cached){
       document.getElementById("status").textContent="Não foi possível carregar o menu. Verifique a ligação à internet ou peça o menu ao balcão.";
