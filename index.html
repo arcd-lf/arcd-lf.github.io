@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- versão 2026-10-09b -->
+<!-- versão 2026-10-09c -->
 <html lang="pt-PT">
 <head>
 <meta charset="utf-8">
@@ -11,6 +11,7 @@
 <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
+<link rel="preload" href="logo.webp" as="image" fetchpriority="high">
 <link rel="preload" href="fonts/playfair-display-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -53,13 +54,13 @@ h1 em{color:var(--yellow);font-style:italic}
 
 /* Navegação de categorias */
 nav{position:sticky;top:0;z-index:10;margin-top:24px;padding:12px 0;background:rgba(34,51,26,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid rgba(251,245,227,.1)}
-nav .container{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;position:relative;overscroll-behavior-x:contain}
+nav .container{display:flex;gap:8px;min-height:36px;overflow-x:auto;scrollbar-width:none;position:relative;overscroll-behavior-x:contain}
 nav .container::-webkit-scrollbar{display:none}
 nav a{flex:none;text-decoration:none;color:var(--cream);font-size:14px;font-weight:700;padding:8px 14px;border-radius:100px;background:rgba(251,245,227,.1);white-space:nowrap}
 nav a.active{background:var(--yellow);color:var(--brown)}
 
 /* Categorias */
-main{padding:20px 0 8px}
+main{padding:20px 0 8px;min-height:100vh}
 section.cat{background:var(--cream);border-radius:24px;padding:22px 20px 10px;margin-bottom:22px;box-shadow:0 8px 0 var(--yellow),0 16px 32px rgba(0,0,0,.28)}
 section.cat h2{font-family:"ARCD Serif";font-weight:700;font-size:28px;line-height:1.1;padding-bottom:10px;border-bottom:2px solid var(--brown)}
 .item{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:14px 0;border-bottom:1px dashed var(--line)}
@@ -113,7 +114,7 @@ body.is-error .chip{background:rgba(255,255,255,.12)}
 <body>
 
 <header class="container">
-  <img src="logo.webp" width="220" height="207" alt="Brasão da ARCD Louriceira-Freiria">
+  <img src="logo.webp" width="220" height="207" fetchpriority="high" alt="Brasão da ARCD Louriceira-Freiria">
   <div class="kicker">O café da associação</div>
   <h1>O nosso<br><em>menu</em></h1>
   <div class="hours">
